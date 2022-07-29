@@ -1,0 +1,24 @@
+{
+  "name": "pinetto",
+  "version": "0.0.1",
+  "description": "Opinionated logging library focusing on simplicity, inspectability and customization. Supports child loggers.",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "files": [
+    "dist/**.js",
+    "dist/**.js.map",
+    "dist/**.d.ts",
+    "dist/**.d.ts.map"
+  ],
+  "engines": {
+    "node": ">= 16"
+  }
+}
