@@ -12,17 +12,17 @@ An isomorphic, opinionated logging library that focuses on:
 - **Customization**: the default logging function can be overridden to
   customize all logging behavior.
 - **Isomorphism**: support browsers and server-side runtimes (Node, Deno, Bun)
+  through separate ES and CommonJS builds.
 
-In many areas this library stands opposite to [pino][pino], hence the name,
-and is nowhere near as production-ready as the latter. 
+In many areas this library stands opposite to [pino][pino], hence the name.
+
+## Etymology
 
 > **-etto**
 >
 > forms nouns from nouns, denoting a diminutive
 >
 > &mdash; [Wikipedia][etto]
-
-You probably should not use this, at least for the time being.
 
 ## Usage
 
@@ -42,13 +42,27 @@ Basic usage:
 
 ```typescript
 const logger = pinetto({ level: 'debug' });
-logger.info('Hello, world!');
-
 const child = logger.child('child-prefix');
-child.info('Hello, world!');
 
-logger.level = 'warn';
+logger.info('Hello, world!'); // prints hello world
+child.debug('Hello, world!'); // prints hello world
+
+logger.level = 'warn';        // log level can be changed at runtime
+                              // the change propagates to child loggers
+
 child.info('Hello, world!');  // prints nothing
+```
+
+Custom logging function:
+
+```typescript
+const logger = pinetto({ 
+  log: (label, prefix, ...args) => {
+    console.log('I only print the first argument', args[0]);
+  }, 
+});
+
+logger.info('first', 'second', 'third'); // prints "I only ... first"
 ```
 
 Supported levels: `trace`, `debug`, `info`, `warn`, `error`.
