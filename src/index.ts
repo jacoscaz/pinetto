@@ -124,5 +124,8 @@ export class Logger<A> {
 
 }
 
+export const createLogger = <A = any>(opts: LoggerOpts<A>) => {
+  return new Logger(opts);
+};
 
-
+export default createLogger;

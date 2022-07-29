@@ -1,11 +1,12 @@
 {
   "name": "pinetto",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Opinionated logging library focusing on simplicity, inspectability and customization. Supports child loggers.",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "exit 0"
   },
   "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
   "license": "MIT",
@@ -20,5 +21,16 @@
   ],
   "engines": {
     "node": ">= 16"
-  }
+  },
+  "keywords": [
+    "logging",
+    "logger",
+    "log",
+    "inspect",
+    "simple",
+    "pino",
+    "pinetto",
+    "child",
+    "console"
+  ]
 }
