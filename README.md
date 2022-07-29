@@ -14,9 +14,9 @@ An isomorphic, opinionated logging library that focuses on:
 - **Isomorphism**: support browsers and server-side runtimes (Node, Deno, Bun)
   through separate ES and CommonJS builds.
 
-In many areas this library stands opposite to [pino][pino], hence the name.
-
 ## Etymology
+
+In many areas this library stands opposite to [pino][pino], hence the name.
 
 > **-etto**
 >
