@@ -56,13 +56,6 @@ class LogMethods {
 
 }
 
-export interface LoggerOpts {
-  log?: LogFn;
-  methods?: LogMethods;
-  prefix?: string;
-  level?: Level;
-}
-
 export const defaultLog: LogFn = typeof console === 'undefined'
   ? noop : (level, prefix, ...args) => {
     if (typeof prefix === 'undefined') {
@@ -72,30 +65,24 @@ export const defaultLog: LogFn = typeof console === 'undefined'
     }
   };
 
-export class Logger {
+interface ChildLoggerOpts {
+  prefix?: string;
+  methods: LogMethods;
+}
 
-  private readonly _root: boolean;
-  private readonly _prefix: string | undefined;
-  private readonly _methods: LogMethods;
+class ChildLogger {
 
-  constructor(opts: LoggerOpts = empty) {
-    const { prefix, log, methods, level } = opts;
-    this._root = !methods;
+  protected readonly _prefix: string | undefined;
+  protected readonly _methods: LogMethods;
+
+  constructor(opts: ChildLoggerOpts) {
+    const { prefix, methods } = opts;
     this._prefix = prefix;
-    this._methods = methods || new LogMethods(log || defaultLog);
-    if (level) {
-      this.level = level;
-    }
+    this._methods = methods;
   }
 
   get level(): Level {
     return this._methods.level;
-  }
-
-  set level(value: Level) {
-    if (this._root) {
-      this._methods.level = value;
-    }
   }
 
   error(...args: any[]) {
@@ -119,7 +106,27 @@ export class Logger {
   }
 
   child(prefix: string) {
-    return new Logger({ methods: this._methods, prefix: `${this._prefix || ''}${prefix}`});
+    return new ChildLogger({ methods: this._methods, prefix: `${this._prefix || ''}${prefix}`});
+  }
+
+}
+
+export interface LoggerOpts {
+  log?: LogFn;
+  prefix?: string;
+  level?: Level;
+}
+
+export class Logger extends ChildLogger {
+
+  constructor(opts: LoggerOpts = empty) {
+    const { prefix, log, level } = opts;
+    const methods = new LogMethods(log || defaultLog, level);
+    super({ methods, prefix });
+  }
+
+  set level(value: Level) {
+    this._methods.level = value;
   }
 
 }

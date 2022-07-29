@@ -48,23 +48,14 @@ exports.defaultLog = typeof console === 'undefined'
         console.log(new Date().toISOString(), level, prefix, ...args);
     }
 };
-class Logger {
-    constructor(opts = empty) {
-        const { prefix, log, methods, level } = opts;
-        this._root = !methods;
+class ChildLogger {
+    constructor(opts) {
+        const { prefix, methods } = opts;
         this._prefix = prefix;
-        this._methods = methods || new LogMethods(log || exports.defaultLog);
-        if (level) {
-            this.level = level;
-        }
+        this._methods = methods;
     }
     get level() {
         return this._methods.level;
-    }
-    set level(value) {
-        if (this._root) {
-            this._methods.level = value;
-        }
     }
     error(...args) {
         this._methods.error(this._prefix, ...args);
@@ -82,7 +73,17 @@ class Logger {
         this._methods.trace(this._prefix, ...args);
     }
     child(prefix) {
-        return new Logger({ methods: this._methods, prefix: `${this._prefix || ''}${prefix}` });
+        return new ChildLogger({ methods: this._methods, prefix: `${this._prefix || ''}${prefix}` });
+    }
+}
+class Logger extends ChildLogger {
+    constructor(opts = empty) {
+        const { prefix, log, level } = opts;
+        const methods = new LogMethods(log || exports.defaultLog, level);
+        super({ methods, prefix });
+    }
+    set level(value) {
+        this._methods.level = value;
     }
 }
 exports.Logger = Logger;
