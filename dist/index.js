@@ -82,7 +82,7 @@ export class Logger {
         return new Logger({ methods: this._methods, prefix: `${this._prefix || ''}${prefix}` });
     }
 }
-export const createLogger = (opts) => {
+export const createLogger = (opts = empty) => {
     return new Logger(opts);
 };
 export default createLogger;

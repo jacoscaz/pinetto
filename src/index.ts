@@ -1,7 +1,7 @@
 
 
-export interface LogFn<A> {
-  (level: string, prefix: string | undefined, ...args: A[]): void;
+export interface LogFn {
+  (level: string, prefix: string | undefined, ...args: any[]): void;
 }
 
 export type Level = 'trace' | 'debug' | 'info' | 'warn' | 'error';
@@ -9,12 +9,12 @@ const LEVELS: Level[] = ['trace', 'debug', 'info', 'warn', 'error'];
 const noop = () => {};
 const empty = Object.create(null);
 
-class LogMethods<A> {
+class LogMethods {
 
-  private _log: LogFn<A>;
+  private _log: LogFn;
   private _level!: Level;
 
-  constructor(log: LogFn<A>, level: Level = 'info') {
+  constructor(log: LogFn, level: Level = 'info') {
     this._log = log;
     this.level = level;
   }
@@ -34,36 +34,36 @@ class LogMethods<A> {
     }
   }
 
-  error(prefix: string | undefined, ...args: A[]) {
+  error(prefix: string | undefined, ...args: any[]) {
     this._log('[ERR]', prefix, ...args);
   }
 
-  warn(prefix: string | undefined, ...args: A[]) {
+  warn(prefix: string | undefined, ...args: any[]) {
     this._log('[WRN]', prefix, ...args);
   }
 
-  info(prefix: string | undefined, ...args: A[]) {
+  info(prefix: string | undefined, ...args: any[]) {
     this._log('[INF]', prefix, ...args);
   }
 
-  debug(prefix: string | undefined, ...args: A[]) {
+  debug(prefix: string | undefined, ...args: any[]) {
     this._log('[DBG]', prefix, ...args);
   }
 
-  trace(prefix: string | undefined, ...args: A[]) {
+  trace(prefix: string | undefined, ...args: any[]) {
     this._log('[TRC]', prefix, ...args);
   }
 
 }
 
-export interface LoggerOpts<A> {
-  log?: LogFn<A>;
-  methods?: LogMethods<A>;
+export interface LoggerOpts {
+  log?: LogFn;
+  methods?: LogMethods;
   prefix?: string;
   level?: Level;
 }
 
-export const defaultLog: LogFn<any> = typeof console === 'undefined'
+export const defaultLog: LogFn = typeof console === 'undefined'
   ? noop : (level, prefix, ...args) => {
     if (typeof prefix === 'undefined') {
       console.log(new Date().toISOString(), level, ...args);
@@ -72,17 +72,17 @@ export const defaultLog: LogFn<any> = typeof console === 'undefined'
     }
   };
 
-export class Logger<A> {
+export class Logger {
 
   private readonly _root: boolean;
   private readonly _prefix: string | undefined;
-  private readonly _methods: LogMethods<A>;
+  private readonly _methods: LogMethods;
 
-  constructor(opts: LoggerOpts<A> = empty) {
+  constructor(opts: LoggerOpts = empty) {
     const { prefix, log, methods, level } = opts;
     this._root = !methods;
     this._prefix = prefix;
-    this._methods = methods || new LogMethods<A>(log || defaultLog);
+    this._methods = methods || new LogMethods(log || defaultLog);
     if (level) {
       this.level = level;
     }
@@ -98,23 +98,23 @@ export class Logger<A> {
     }
   }
 
-  error(...args: A[]) {
+  error(...args: any[]) {
     this._methods.error(this._prefix, ...args);
   }
 
-  warn(...args: A[]) {
+  warn(...args: any[]) {
     this._methods.warn(this._prefix, ...args);
   }
 
-  info(...args: A[]) {
+  info(...args: any[]) {
     this._methods.info(this._prefix, ...args);
   }
 
-  debug(...args: A[]) {
+  debug(...args: any[]) {
     this._methods.debug(this._prefix, ...args);
   }
 
-  trace(...args: A[]) {
+  trace(...args: any[]) {
     this._methods.trace(this._prefix, ...args);
   }
 
@@ -124,7 +124,7 @@ export class Logger<A> {
 
 }
 
-export const createLogger = <A = any>(opts: LoggerOpts<A>) => {
+export const createLogger = (opts: LoggerOpts = empty) => {
   return new Logger(opts);
 };
 

@@ -1,40 +1,40 @@
-export interface LogFn<A> {
-    (level: string, prefix: string | undefined, ...args: A[]): void;
+export interface LogFn {
+    (level: string, prefix: string | undefined, ...args: any[]): void;
 }
 export declare type Level = 'trace' | 'debug' | 'info' | 'warn' | 'error';
-declare class LogMethods<A> {
+declare class LogMethods {
     private _log;
     private _level;
-    constructor(log: LogFn<A>, level?: Level);
+    constructor(log: LogFn, level?: Level);
     get level(): Level;
     set level(value: Level);
-    error(prefix: string | undefined, ...args: A[]): void;
-    warn(prefix: string | undefined, ...args: A[]): void;
-    info(prefix: string | undefined, ...args: A[]): void;
-    debug(prefix: string | undefined, ...args: A[]): void;
-    trace(prefix: string | undefined, ...args: A[]): void;
+    error(prefix: string | undefined, ...args: any[]): void;
+    warn(prefix: string | undefined, ...args: any[]): void;
+    info(prefix: string | undefined, ...args: any[]): void;
+    debug(prefix: string | undefined, ...args: any[]): void;
+    trace(prefix: string | undefined, ...args: any[]): void;
 }
-export interface LoggerOpts<A> {
-    log?: LogFn<A>;
-    methods?: LogMethods<A>;
+export interface LoggerOpts {
+    log?: LogFn;
+    methods?: LogMethods;
     prefix?: string;
     level?: Level;
 }
-export declare const defaultLog: LogFn<any>;
-export declare class Logger<A> {
+export declare const defaultLog: LogFn;
+export declare class Logger {
     private readonly _root;
     private readonly _prefix;
     private readonly _methods;
-    constructor(opts?: LoggerOpts<A>);
+    constructor(opts?: LoggerOpts);
     get level(): Level;
     set level(value: Level);
-    error(...args: A[]): void;
-    warn(...args: A[]): void;
-    info(...args: A[]): void;
-    debug(...args: A[]): void;
-    trace(...args: A[]): void;
-    child(prefix: string): Logger<A>;
+    error(...args: any[]): void;
+    warn(...args: any[]): void;
+    info(...args: any[]): void;
+    debug(...args: any[]): void;
+    trace(...args: any[]): void;
+    child(prefix: string): Logger;
 }
-export declare const createLogger: <A = any>(opts: LoggerOpts<A>) => Logger<A>;
+export declare const createLogger: (opts?: LoggerOpts) => Logger;
 export default createLogger;
 //# sourceMappingURL=index.d.ts.map
