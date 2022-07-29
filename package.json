@@ -2,10 +2,16 @@
   "name": "pinetto",
   "version": "0.0.2",
   "description": "Opinionated logging library focusing on simplicity, inspectability and customization. Supports child loggers.",
-  "main": "dist/index.js",
-  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "exports": {
+    "import": "./dist/es/index.js",
+    "require": "./dist/cjs/index.js"
+  },
+  "type": "commonjs",
   "scripts": {
-    "build": "tsc",
+    "build:es": "tsc -p tsconfig.es.json && echo '{\"type\": \"module\"}' > dist/es/package.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
+    "build": "npm run build:es && npm run build:cjs",
     "test": "exit 0"
   },
   "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
@@ -14,10 +20,10 @@
     "typescript": "^4.7.4"
   },
   "files": [
-    "dist/**.js",
-    "dist/**.js.map",
-    "dist/**.d.ts",
-    "dist/**.d.ts.map"
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map"
   ],
   "engines": {
     "node": ">= 16"
