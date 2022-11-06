@@ -1,0 +1,30 @@
+
+import type { LogArg } from './types';
+import { LogLevel } from './types';
+
+export const LABELS: Record<LogLevel, string> = {
+  error: '[ERR]',
+  warn: '[WRN]',
+  info: '[INF]',
+  debug: '[DBG]',
+  trace: '[TRC]'
+};
+
+const FORMAT_RGXP = /%[sdicobf]/g;
+
+const formatMessage = (message: string, args: LogArg[]): string => {
+  if (args.length === 0) {
+    return message;
+  }
+  let count = 0;
+  return message.replace(FORMAT_RGXP, (match) => {
+    if (count < args.length) {
+      return String(args[count++]);
+    }
+    return match;
+  });
+};
+
+export const format = (level: LogLevel, prefix: string, message: string, args: LogArg[]): string => {
+  return `${new Date().toISOString()} ${LABELS[level]}${prefix ? ` ${prefix}` : ''} ${formatMessage(message, args)}`;
+};

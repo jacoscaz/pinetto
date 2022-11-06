@@ -3,16 +3,14 @@
 
 An isomorphic, opinionated logging library that focuses on:
 
-- **Simplicity**: one source file, zero runtime dependencies.
-- **Inspectability**: the default logging function passes its arguments as they
-  are to `console.log()`, which facilitates inspection in IDEs and produces 
-  plain-text, human-readable output.
-- **Child loggers**: comes with baked-in support for child loggers based on
-  prefix concatenation.
-- **Customization**: the default logging function can be overridden to
-  customize all logging behavior.
-- **Isomorphism**: support browsers and server-side runtimes (Node, Deno, Bun)
-  through separate ES and CommonJS builds.
+- **Simplicity**: zero runtime dependencies, ~300 LoCs.
+- **Readability**: produces plain-text, human-readable output.
+- **Performance**: uses asynchronous logging techniques when possible.
+- **Child loggers**: supports child loggers based on prefix concatenation.
+- **Customization**: the default log writer can be overridden to customize
+  logging behavior.
+- **Isomorphism**: supports browsers and server-side runtimes.
+- **ESM**: ships with separate ESM and CommonJS builds.
 
 ## Etymology
 
@@ -53,16 +51,26 @@ logger.level = 'warn';        // log level can be changed at runtime
 child.info('Hello, world!');  // prints nothing
 ```
 
-Custom logging function:
+Templating & Formatting:
 
 ```typescript
-const logger = pinetto({ 
-  log: (label, prefix, ...args) => {
-    console.log('I only print the first argument', args[0]);
-  }, 
-});
+const logger = pinetto({ level: 'debug' });
+```
 
-logger.info('first', 'second', 'third'); // prints "I only ... first"
+Custom log writer:
+
+```typescript
+import pinetto, { LogWriter } from 'pinetto';
+
+const writer: LogWriter = {
+  write(level, prefix, message, args) {
+    console.log('I only print the first argument:', args[0]);
+  },
+};
+
+const logger = pinetto({ level: 'debug', writer });
+
+logger.info('one', 'two', 'three'); // prints "I only ... one"
 ```
 
 Supported levels: `trace`, `debug`, `info`, `warn`, `error`.

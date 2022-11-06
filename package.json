@@ -1,7 +1,7 @@
 {
   "name": "pinetto",
-  "version": "0.1.4",
-  "description": "Isomorphic, opinionated logging library focusing on simplicity, inspectability and customization. Supports child loggers.",
+  "version": "0.2.0",
+  "description": "Isomorphic, opinionated logging library focusing on simplicity and readability. Supports child loggers.",
   "main": "./dist/cjs/index.js",
   "exports": {
     "import": "./dist/es/index.js",
@@ -9,7 +9,7 @@
   },
   "type": "commonjs",
   "scripts": {
-    "build:es": "tsc -p tsconfig.es.json && echo '{\"type\": \"module\"}' > dist/es/package.json",
+    "build:es": "tsc -p tsconfig.es.json && echo '{\"type\": \"module\"}' > dist/es/package.json && node fix-esm-import-paths.cjs dist/es",
     "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
     "build": "npm run build:es && npm run build:cjs",
     "test": "exit 0"
@@ -23,6 +23,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^18.11.9",
     "typescript": "^4.7.4"
   },
   "files": [
@@ -38,7 +39,6 @@
     "logging",
     "logger",
     "log",
-    "inspect",
     "simple",
     "pino",
     "pinetto",
@@ -47,6 +47,9 @@
     "isomoprhic",
     "bun",
     "module",
-    "browser"
+    "browser",
+    "node",
+    "async",
+    "fast"
   ]
 }
