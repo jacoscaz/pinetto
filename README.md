@@ -55,6 +55,8 @@ Templating & Formatting:
 
 ```typescript
 const logger = pinetto({ level: 'debug' });
+
+logger.info('Hello, %s!', 'World');
 ```
 
 Custom log writer:
