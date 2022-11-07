@@ -20,19 +20,31 @@ export class LogMethods {
     for (let i = 0, seen = false, level: LogLevel; i < LEVELS.length; i += 1) {
       level = LEVELS[i];
       if (seen || (seen = level === value)) {
-        this[level] = (prefix: string, message: string, args: LogArg[]) => {
-          this._writer.write(level, prefix, message, args);
-        };
+        this[level] = LogMethods.prototype[level];
       } else {
         this[level] = NOOP;
       }
     }
   }
 
-  error!: (prefix: string, message: string, args: LogArg[]) => void;
-  warn!: (prefix: string, message: string, args: LogArg[]) => void;
-  info!: (prefix: string, message: string, args: LogArg[]) => void;
-  debug!: (prefix: string, message: string, args: LogArg[]) => void;
-  trace!: (prefix: string, message: string, args: LogArg[]) => void;
+  error(prefix: string, message: string, args: LogArg[]) {
+    this._writer.write('error', prefix, message, args);
+  };
+
+  warn(prefix: string, message: string, args: LogArg[]) {
+    this._writer.write('warn', prefix, message, args);
+  };
+
+  info(prefix: string, message: string, args: LogArg[]) {
+    this._writer.write('info', prefix, message, args);
+  };
+
+  debug(prefix: string, message: string, args: LogArg[]) {
+    this._writer.write('debug', prefix, message, args);
+  };
+
+  trace(prefix: string, message: string, args: LogArg[]) {
+    this._writer.write('trace', prefix, message, args);
+  };
 
 }

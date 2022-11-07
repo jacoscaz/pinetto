@@ -24,19 +24,19 @@ In many areas this library stands opposite to [pino][pino], hence the name.
 
 ## Usage
 
-Within ES modules:
+### Within ES modules
 
 ```typescript
 import pinetto from 'pinetto';
 ```
 
-Within CommonJS modules:
+### Within CommonJS modules
 
 ```javascript
 const { default: pinetto } = require('pinetto');
 ```
 
-Basic usage:
+### Basic usage
 
 ```typescript
 const logger = pinetto({ level: 'debug' });
@@ -51,7 +51,9 @@ logger.level = 'warn';        // log level can be changed at runtime
 child.info('Hello, world!');  // prints nothing
 ```
 
-Templating & Formatting:
+### Templating & Formatting
+
+The default formatter support a minimal printf-style templating syntax:
 
 ```typescript
 const logger = pinetto({ level: 'debug' });
@@ -59,7 +61,7 @@ const logger = pinetto({ level: 'debug' });
 logger.info('Hello, %s!', 'World');
 ```
 
-Custom log writer:
+### Custom log writer
 
 ```typescript
 import pinetto, { LogWriter } from 'pinetto';
@@ -75,7 +77,9 @@ const logger = pinetto({ level: 'debug', writer });
 logger.info('one', 'two', 'three'); // prints "I only ... one"
 ```
 
-Supported levels: `trace`, `debug`, `info`, `warn`, `error`.
+### Supported levels
+
+`trace`, `debug`, `info`, `warn`, `error`.
 
 ## License
 
