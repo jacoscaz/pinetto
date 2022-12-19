@@ -20,8 +20,8 @@ export class NodeBufferedWriter implements LogWriter {
     this._buffer = '';
     this._timeout = null;
     this._flushing = false;
-    this._maxBufferLength = opts?.maxBufferLength || 8192;
-    this._flushTimeout = opts?.flushTimeout || 250;
+    this._maxBufferLength = typeof opts.maxBufferLength === 'number' ? opts.maxBufferLength as number : 8192;
+    this._flushTimeout = typeof opts.maxBufferLength === 'number' ? opts.flushTimeout as number : 250;
     this._flush = this._flush.bind(this);
   }
 

@@ -36,16 +36,16 @@ describe('a logger', () => {
     it('should pass a message with no params to the writer with level info', () => {
       logger = pinetto({ writer });
       logger.info('Hello, World!');
-      strictEqual(output?.level, 'info');
-      strictEqual(output?.message, 'Hello, World!');
-      deepStrictEqual(output?.args, []);
+      strictEqual(output!.level, 'info');
+      strictEqual(output!.message, 'Hello, World!');
+      deepStrictEqual(output!.args, []);
     });
 
     it('should pass a message with one param to the writer with level debug', () => {
       logger.info('Hello, World!', 42);
-      strictEqual(output?.level, 'info');
-      strictEqual(output?.message, 'Hello, World!');
-      deepStrictEqual(output?.args, [42]);
+      strictEqual(output!.level, 'info');
+      strictEqual(output!.message, 'Hello, World!');
+      deepStrictEqual(output!.args, [42]);
     });
   });
 
@@ -67,17 +67,17 @@ describe('a logger', () => {
 
     it('should write a message with log level info', () => {
       logger.info('Hello, World!');
-      strictEqual(output?.level, 'info');
+      strictEqual(output!.level, 'info');
     });
 
     it('should write a message with log level warn', () => {
       logger.warn('Hello, World!');
-      strictEqual(output?.level, 'warn');
+      strictEqual(output!.level, 'warn');
     });
 
     it('should write a message with log level error', () => {
       logger.error('Hello, World!');
-      strictEqual(output?.level, 'error');
+      strictEqual(output!.level, 'error');
     });
 
   });
