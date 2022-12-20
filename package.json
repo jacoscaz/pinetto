@@ -12,7 +12,7 @@
     "build:es": "tsc -p tsconfig.es.json && echo '{\"type\": \"module\"}' > dist/es/package.json && node fix-esm-import-paths.cjs dist/es",
     "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
     "build": "npm run build:es && npm run build:cjs",
-    "test": "tsc -p tsconfig-test.cjs.json && mocha test"
+    "test": "tsc -p tsconfig-test.cjs.json && node --enable-source-maps node_modules/.bin/mocha test"
   },
   "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
   "homepage": "https://github.com/jacoscaz/pinetto",

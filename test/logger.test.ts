@@ -3,6 +3,7 @@ import type { LogWriter, LogLevel, LogArg, Logger } from '../dist/cjs'
 
 import { strictEqual, deepStrictEqual } from 'assert';
 import pinetto from '../dist/cjs';
+import { format } from '../dist/cjs/format';
 
 interface LogParams {
   level: LogLevel,
@@ -82,4 +83,15 @@ describe('a logger', () => {
 
   });
 
+});
+
+describe('the default formatter', () => {
+  it('should format with level info and one arg', () => {
+    const formatted = format('info', '', 'Hello, %s!', ['World']);
+    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
+  });
+  it('should format with level debug and zero args', () => {
+    const formatted = format('debug', '', 'Hello, World!', []);
+    strictEqual(formatted.slice(24), ' [DBG] Hello, World!');
+  });
 });
