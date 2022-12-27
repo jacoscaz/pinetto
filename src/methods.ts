@@ -27,23 +27,23 @@ export class LogMethods {
     }
   }
 
-  error(prefix: string, message: string, args: LogArg[]) {
+  error(prefix: string | undefined, message: string, args: LogArg[]) {
     this._writer.write('error', prefix, message, args);
   };
 
-  warn(prefix: string, message: string, args: LogArg[]) {
+  warn(prefix: string | undefined, message: string, args: LogArg[]) {
     this._writer.write('warn', prefix, message, args);
   };
 
-  info(prefix: string, message: string, args: LogArg[]) {
+  info(prefix: string | undefined, message: string, args: LogArg[]) {
     this._writer.write('info', prefix, message, args);
   };
 
-  debug(prefix: string, message: string, args: LogArg[]) {
+  debug(prefix: string | undefined, message: string, args: LogArg[]) {
     this._writer.write('debug', prefix, message, args);
   };
 
-  trace(prefix: string, message: string, args: LogArg[]) {
+  trace(prefix: string | undefined, message: string, args: LogArg[]) {
     this._writer.write('trace', prefix, message, args);
   };
 

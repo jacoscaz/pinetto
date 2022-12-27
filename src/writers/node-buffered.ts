@@ -35,7 +35,7 @@ export class NodeBufferedWriter implements LogWriter {
     this._flushing = false;
   }
 
-  write(level: LogLevel, prefix: string, message: string, args: LogArg[]): any {
+  write(level: LogLevel, prefix: string | undefined, message: string, args: LogArg[]): any {
     this._buffer += format(level, prefix, message, args) + '\n';
     if (!this._flushing) {
       if (this._buffer.length >= this._maxBufferLength) {

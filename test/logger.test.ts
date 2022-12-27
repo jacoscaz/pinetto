@@ -83,6 +83,22 @@ describe('a logger', () => {
 
   });
 
+  describe('with a custom prefix separator', () => {
+    beforeEach(() => {
+      logger = pinetto({ writer, prefixSeparator: '#' });
+    });
+
+    it ('should correctly format the prefix in a chain of one', () => {
+      logger.child('p1').info('Hello, World!');
+      strictEqual(output!.prefix, 'p1');
+    });
+
+    it ('should correctly format the prefix in a chain of two', () => {
+      logger.child('p1').child('p2').info('Hello, World!');
+      strictEqual(output!.prefix, 'p1#p2');
+    });
+  });
+
 });
 
 describe('the default formatter', () => {

@@ -8,9 +8,9 @@ import { ChildLogger } from './child';
 export class Logger extends ChildLogger {
 
   constructor(opts: LoggerOpts = EMPTY) {
-    const { prefix, level, writer } = opts;
+    const { level, writer, prefixSeparator } = opts;
     const methods = new LogMethods(writer || new DefaultWriter(), level);
-    super({ methods, prefix });
+    super({ methods, prefixSeparator });
   }
 
   set level(value: LogLevel) {

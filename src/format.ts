@@ -25,6 +25,9 @@ const formatMessage = (message: string, args: LogArg[]): string => {
   });
 };
 
-export const format = (level: LogLevel, prefix: string, message: string, args: LogArg[]): string => {
-  return `${new Date().toISOString()} ${LABELS[level]}${prefix ? ` ${prefix}` : ''} ${formatMessage(message, args)}`;
+export const format = (level: LogLevel, prefix: string | undefined, message: string, args: LogArg[]): string => {
+  return prefix
+    ? `${new Date().toISOString()} ${LABELS[level]} ${prefix} ${formatMessage(message, args)}`
+    : `${new Date().toISOString()} ${LABELS[level]} ${formatMessage(message, args)}`
+  ;
 };

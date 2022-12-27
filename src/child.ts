@@ -5,17 +5,20 @@ import type { LogMethods } from './methods';
 export interface ChildLoggerOpts {
   prefix?: string;
   methods: LogMethods;
+  prefixSeparator?: string;
 }
 
 export class ChildLogger {
 
-  protected readonly _prefix: string;
+  protected readonly _prefix: string | undefined;
   protected readonly _methods: LogMethods;
+  protected readonly _prefixSeparator: string;
 
   constructor(opts: ChildLoggerOpts) {
-    const { prefix, methods } = opts;
-    this._prefix = prefix || '';
+    const { prefix, methods, prefixSeparator } = opts;
+    this._prefix = prefix;
     this._methods = methods;
+    this._prefixSeparator = typeof prefixSeparator === 'string' ? prefixSeparator : ' ';
   }
 
   get level(): LogLevel {
@@ -43,7 +46,11 @@ export class ChildLogger {
   }
 
   child(prefix: string) {
-    return new ChildLogger({ methods: this._methods, prefix: `${this._prefix}${prefix}`});
+    return new ChildLogger({
+      methods: this._methods,
+      prefix: typeof this._prefix === 'string' ? `${this._prefix}${this._prefixSeparator}${prefix}` : prefix,
+      prefixSeparator: this._prefixSeparator,
+    });
   }
 
 }

@@ -51,6 +51,22 @@ logger.level = 'warn';        // log level can be changed at runtime
 child.info('Hello, world!');  // prints nothing
 ```
 
+### Supported options
+
+```typescript
+const logger = pinetto({
+  level: 'debug',
+  writer: () => { /* ... */ },
+  prefixSeparator: '',
+})
+```
+
+| Option            | Description                                                                    | Default value                          |
+|-------------------|--------------------------------------------------------------------------------|----------------------------------------|
+| `level`           | Starting log level, one of `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"` | `"info"`                               |
+| `writer`          | A custom log writer function (see below)                                       | Default log writer using `console.log` |
+| `prefixSeparator` | A string that is used to concatenate prefixes in chain of child loggers        | `" "`                                  |
+
 ### Templating & Formatting
 
 The default formatter support a minimal printf-style templating syntax:
@@ -76,10 +92,6 @@ const logger = pinetto({ level: 'debug', writer });
 
 logger.info('one', 'two', 'three'); // prints "I only ... one"
 ```
-
-### Supported levels
-
-`trace`, `debug`, `info`, `warn`, `error`.
 
 ## License
 
