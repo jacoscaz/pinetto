@@ -1,6 +1,6 @@
 {
   "name": "pinetto",
-  "version": "0.4.1",
+  "version": "1.0.1",
   "description": "Isomorphic, opinionated logging library focusing on simplicity and readability. Supports child loggers.",
   "main": "./dist/cjs/index.js",
   "exports": {

@@ -3,7 +3,7 @@ import type { LogWriter, LogLevel, LogArg, Logger } from '../dist/cjs'
 
 import { strictEqual, deepStrictEqual } from 'assert';
 import pinetto from '../dist/cjs';
-import { format } from '../dist/cjs/format';
+import { format } from '../dist/cjs/writers/format';
 
 interface LogParams {
   level: LogLevel,

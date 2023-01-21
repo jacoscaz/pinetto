@@ -3,14 +3,14 @@
 
 An isomorphic, opinionated logging library that focuses on:
 
-- **Simplicity**: zero runtime dependencies, ~300 LoCs.
-- **Readability**: produces plain-text, human-readable output.
-- **Performance**: uses asynchronous logging techniques when possible.
-- **Child loggers**: supports child loggers based on prefix concatenation.
+- **Simplicity**: zero runtime dependencies, ~300 LoCs
+- **Readability**: produces plain-text, human-readable output
+- **Performance**: uses asynchronous logging techniques when possible
+- **Child loggers**: supports chained child loggers using prefix concatenation
 - **Customization**: the default log writer can be overridden to customize
-  logging behavior.
-- **Isomorphism**: supports browsers and server-side runtimes.
-- **ESM**: ships with separate ESM and CommonJS builds.
+  logging behavior
+- **Isomorphism**: supports browsers and server-side runtimes
+- **ESM**: ships with separate ESM and CommonJS builds
 
 ## Etymology
 
@@ -84,13 +84,13 @@ import pinetto, { LogWriter } from 'pinetto';
 
 const writer: LogWriter = {
   write(level, prefix, message, args) {
-    console.log('I only print the first argument:', args[0]);
+    console.log('First argument:', args[0]);
   },
 };
 
 const logger = pinetto({ level: 'debug', writer });
 
-logger.info('one', 'two', 'three'); // prints "I only ... one"
+logger.info('some message', 'one', 'two', 'three'); // prints "First argument: one"
 ```
 
 ## License

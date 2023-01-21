@@ -1,6 +1,6 @@
 
-import type { LogArg } from './types';
-import { LogLevel } from './types';
+import type { LogArg } from '../types';
+import { LogLevel } from '../types';
 
 export const LABELS: Record<LogLevel, string> = {
   error: '[ERR]',

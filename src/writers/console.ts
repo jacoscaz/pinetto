@@ -1,6 +1,6 @@
 
 import type { LogArg, LogWriter, LogLevel } from '../types';
-import { format } from '../format';
+import { format } from './format';
 
 export class ConsoleWriter implements LogWriter {
 
