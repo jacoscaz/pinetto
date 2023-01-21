@@ -1,6 +1,6 @@
 {
   "name": "pinetto",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Isomorphic, opinionated logging library focusing on simplicity and readability. Supports child loggers.",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -32,7 +32,8 @@
     "dist/**/*.js",
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map"
+    "dist/**/*.d.ts.map",
+    "dist/**/package.json"
   ],
   "engines": {
     "node": ">= 12"
