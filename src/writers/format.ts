@@ -12,6 +12,10 @@ export const LABELS: Record<LogLevel, string> = {
 
 const FORMAT_RGXP = /%[sdicobf]/g;
 
+const argToString = (arg: LogArg): string => {
+  return String(typeof arg === 'function' ? arg() : arg); 
+};
+
 const formatMessage = (message: string, args: LogArg[]): string => {
   if (args.length === 0) {
     return message;
@@ -19,7 +23,7 @@ const formatMessage = (message: string, args: LogArg[]): string => {
   let count = 0;
   return message.replace(FORMAT_RGXP, (match) => {
     if (count < args.length) {
-      return String(args[count++]);
+      return argToString(args[count++]);
     }
     return match;
   });

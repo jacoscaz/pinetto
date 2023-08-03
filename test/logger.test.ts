@@ -110,4 +110,12 @@ describe('the default formatter', () => {
     const formatted = format('debug', '', 'Hello, World!', []);
     strictEqual(formatted.slice(24), ' [DBG] Hello, World!');
   });
+  it('should invoke arguments wrapped in classic functions', () => {
+    const formatted = format('info', '', 'Hello, %s!', [function () { return 'World'; }]);
+    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
+  });
+  it('should invoke arguments wrapped in arrow functions', () => {
+    const formatted = format('info', '', 'Hello, %s!', [() => 'World']);
+    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
+  });
 });

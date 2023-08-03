@@ -1,6 +1,8 @@
 
 
-export type LogArg = string | number | boolean | null | undefined;
+export type BaseLogArg = string | number | boolean | null | undefined;
+
+export type LogArg = BaseLogArg | (() => BaseLogArg);
 
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
 
