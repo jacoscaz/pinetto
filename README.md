@@ -97,5 +97,5 @@ logger.info('some message', 'one', 'two', 'three'); // prints "First argument: o
 
 MIT
 
-[pino]: https://www.npmjs.com/package/pino`
+[pino]: https://www.npmjs.com/package/pino
 [etto]: https://en.wiktionary.org/wiki/-etto
