@@ -1,9 +1,7 @@
 
-import type { LogWriter } from '../types';
-import { NodeBufferedWriter } from './node-buffered';
-import { ConsoleWriter } from './console';
+import type { LogWriter } from '../types.js';
+import { IS_NODE } from '../constants.js';
+import { BufferedWriter } from './node-buffered.js';
+import { ConsoleWriter } from './console.js';
 
-const isNode = typeof process !== 'undefined'
-  && process.release.name === 'node';
-
-export const DefaultWriter: new () => LogWriter = isNode ? NodeBufferedWriter : ConsoleWriter;
+export const DefaultWriter: new () => LogWriter = IS_NODE ? BufferedWriter : ConsoleWriter;

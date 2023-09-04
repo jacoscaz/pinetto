@@ -1,6 +1,6 @@
 
-import type { LogArg, LogLevel } from './types';
-import type { LogMethods } from './methods';
+import type { LogArg, LogLevel } from './types.js';
+import type { LogMethods } from './methods.js';
 
 export interface ChildLoggerOpts {
   prefix?: string;

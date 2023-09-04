@@ -1,0 +1,14 @@
+
+.idea
+.github
+
+dist/**/*.js.map
+dist/**/*.d.ts.map
+
+dist/**/*.spec.js
+dist/**/*.spec.js.map
+dist/**/*.spec.d.ts
+dist/**/*.spec.d.ts.map
+
+src
+tsconfig.*

@@ -3,12 +3,10 @@
 
 An isomorphic, opinionated logging library that focuses on:
 
-- **Simplicity**: zero runtime dependencies, ~300 LoCs
+- **Simplicity**: zero runtime dependencies, ~500 LoCs
 - **Readability**: produces plain-text, human-readable output
 - **Performance**: uses asynchronous logging techniques when possible
 - **Child loggers**: supports chained child loggers using prefix concatenation
-- **Customization**: the default log writer can be overridden to customize
-  logging behavior
 - **Isomorphism**: supports browsers and server-side runtimes
 - **ESM**: ships with separate ESM and CommonJS builds
 
@@ -67,9 +65,9 @@ const logger = pinetto({
 | `writer`          | A custom log writer function (see below)                                       | Default log writer using `console.log` |
 | `prefixSeparator` | A string that is used to concatenate prefixes in chain of child loggers        | `" "`                                  |
 
-### Templating & Formatting
+### Formatting
 
-The default formatter support a minimal printf-style templating syntax:
+`printf`-style syntax is supported:
 
 ```typescript
 const logger = pinetto({ level: 'debug' });
@@ -77,25 +75,36 @@ const logger = pinetto({ level: 'debug' });
 logger.info('Hello, %s!', 'World');
 ```
 
-### Custom log writer
+### Log writers
+
+Pinetto ships with two different writers: `ConsoleWriter` and `BufferedWriter`.
+The former falls back onto standard `console` logging methods while the latter
+flushes log entries to either `console.log()` or `process.stdout.write()` in an
+asynchronous fashion, depending on whether a node-like environment is detected.
+
+By default, pinetto will use `BufferedWriter` in node-like environments and
+`ConsoleWriter` everywhere else. However, the writer can be manually set via
+the respective constructor option:
 
 ```typescript
-import pinetto, { LogWriter } from 'pinetto';
+import pinetto, { ConsoleWriter, BufferedWriter } from 'pinetto';
 
-const writer: LogWriter = {
-  write(level, prefix, message, args) {
-    console.log('First argument:', args[0]);
-  },
-};
-
-const logger = pinetto({ level: 'debug', writer });
-
-logger.info('some message', 'one', 'two', 'three'); // prints "First argument: one"
+const logger = pinetto({ level: 'debug', writer: new ConsoleWriter() });
 ```
 
 ## License
 
-MIT
+Pinetto is released under the MIT license.
 
+The following packages have been vendored into pinetto, although slowly
+diverging from the respective sources:
+
+- [boolean][bool1] at commit [6af03e40f55ed848eb2d2f84c9d11cd629a94b6d][bool2] (BSD-3-CLAUSE)
+- [fast-printf][printf1] at commit [8372e5cbc7d4f16a655fd4c42077db0147c077af][printf2] (MIT)
+
+[bool1]: https://www.npmjs.com/package/boolean
+[bool2]: https://github.com/thenativeweb/boolean/tree/6af03e40f55ed848eb2d2f84c9d11cd629a94b6d
+[printf1]: https://www.npmjs.com/package/fast-printf
+[printf2]: https://github.com/gajus/fast-printf/tree/8372e5cbc7d4f16a655fd4c42077db0147c077af
 [pino]: https://www.npmjs.com/package/pino
 [etto]: https://en.wiktionary.org/wiki/-etto

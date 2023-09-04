@@ -1,6 +1,6 @@
 
-import type { LogArg, LogWriter, LogLevel } from './types';
-import { LEVELS, NOOP } from './constants';
+import type { LogArg, LogWriter, LogLevel } from './types.js';
+import { LEVELS, NOOP } from './constants.js';
 
 export class LogMethods {
 

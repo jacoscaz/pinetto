@@ -1,9 +1,9 @@
 
-import type { LoggerOpts, LogLevel } from './types';
-import { LogMethods } from './methods';
-import { EMPTY } from './constants'
-import { DefaultWriter } from './writers/default';
-import { ChildLogger } from './child';
+import type { LoggerOpts, LogLevel } from './types.js';
+import { LogMethods } from './methods.js';
+import { EMPTY } from './constants.js'
+import { DefaultWriter } from './writers/default.js';
+import { ChildLogger } from './child.js';
 
 export class Logger extends ChildLogger {
 

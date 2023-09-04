@@ -1,9 +1,9 @@
 
-import type { LogWriter, LogLevel, LogArg, Logger } from '../dist/cjs'
+import type { LogWriter, LogLevel, LogArg } from './types.js'
 
-import { strictEqual, deepStrictEqual } from 'assert';
-import pinetto from '../dist/cjs';
-import { format } from '../dist/cjs/writers/format';
+import { strictEqual, deepStrictEqual } from 'node:assert';
+
+import { Logger, createLogger } from './logger.js';
 
 interface LogParams {
   level: LogLevel,
@@ -31,11 +31,11 @@ describe('a logger', () => {
   describe('with log level set at trace', () => {
 
     beforeEach(() => {
-      logger = pinetto({ writer, level: 'trace' });
+      logger = createLogger({ writer, level: 'trace' });
     });
 
     it('should pass a message with no params to the writer with level info', () => {
-      logger = pinetto({ writer });
+      logger = createLogger({ writer });
       logger.info('Hello, World!');
       strictEqual(output!.level, 'info');
       strictEqual(output!.message, 'Hello, World!');
@@ -53,7 +53,7 @@ describe('a logger', () => {
   describe('with log level set at info', () => {
 
     beforeEach(() => {
-      logger = pinetto({ writer, level: 'info' });
+      logger = createLogger({ writer, level: 'info' });
     });
 
     it('should not write a message with log level trace', () => {
@@ -85,7 +85,7 @@ describe('a logger', () => {
 
   describe('with a custom prefix separator', () => {
     beforeEach(() => {
-      logger = pinetto({ writer, prefixSeparator: '#' });
+      logger = createLogger({ writer, prefixSeparator: '#' });
     });
 
     it ('should correctly format the prefix in a chain of one', () => {
@@ -101,21 +101,3 @@ describe('a logger', () => {
 
 });
 
-describe('the default formatter', () => {
-  it('should format with level info and one arg', () => {
-    const formatted = format('info', '', 'Hello, %s!', ['World']);
-    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
-  });
-  it('should format with level debug and zero args', () => {
-    const formatted = format('debug', '', 'Hello, World!', []);
-    strictEqual(formatted.slice(24), ' [DBG] Hello, World!');
-  });
-  it('should invoke arguments wrapped in classic functions', () => {
-    const formatted = format('info', '', 'Hello, %s!', [function () { return 'World'; }]);
-    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
-  });
-  it('should invoke arguments wrapped in arrow functions', () => {
-    const formatted = format('info', '', 'Hello, %s!', [() => 'World']);
-    strictEqual(formatted.slice(24), ' [INF] Hello, World!');
-  });
-});
