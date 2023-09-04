@@ -7,7 +7,7 @@
  * https://github.com/gajus/fast-printf/blob/8372e5cbc7d4f16a655fd4c42077db0147c077af 
  */
 
-import type { Token } from './types';
+import type { Token } from './types.js';
 
 const TokenRule = /(?:%(?<flag>([+0-]|-\+))?(?<width>\d+)?(?<position>\d+\$)?(?<precision>\.\d+)?(?<conversion>[%BCESb-iosux]))|(\\%)/g;
 

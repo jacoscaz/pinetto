@@ -7,9 +7,9 @@
  * https://github.com/gajus/fast-printf/blob/8372e5cbc7d4f16a655fd4c42077db0147c077af 
  */
 
-import { boolean } from './boolean';
-import { tokenize } from './tokenize';
-import type { Token, Flag } from './types';
+import { boolean } from './boolean.js';
+import { tokenize } from './tokenize.js';
+import type { Token, Flag } from './types.js';
 
 const padValue = (value: string, width: number, flag: Flag | null): string => {
   if (flag === '-') {
