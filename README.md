@@ -54,7 +54,7 @@ child.info('Hello, world!');  // prints nothing
 ```typescript
 const logger = pinetto({
   level: 'debug',
-  writer: () => { /* ... */ },
+  writer: new BufferedWriter(),
   prefixSeparator: '',
 })
 ```
@@ -62,7 +62,7 @@ const logger = pinetto({
 | Option            | Description                                                                    | Default value                          |
 |-------------------|--------------------------------------------------------------------------------|----------------------------------------|
 | `level`           | Starting log level, one of `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"` | `"info"`                               |
-| `writer`          | A custom log writer function (see below)                                       | Default log writer using `console.log` |
+| `writer`          | Log writer function (see below)                                                | Depends on the environment             |
 | `prefixSeparator` | A string that is used to concatenate prefixes in chain of child loggers        | `" "`                                  |
 
 ### Formatting
