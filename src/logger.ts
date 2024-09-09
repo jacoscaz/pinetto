@@ -1,16 +1,19 @@
 
 import type { LoggerOpts, LogLevel } from './types.js';
 import { LogMethods } from './methods.js';
-import { EMPTY } from './constants.js'
-import { DefaultWriter } from './writers/default.js';
+import { EMPTY, IS_NODE } from './constants.js';
 import { ChildLogger } from './child.js';
+import { BufferedWriter } from './writers/buffered.js';
+import { ConsoleWriter } from './writers/console.js';
+
+const DefaultWriter = IS_NODE ? BufferedWriter : ConsoleWriter;
 
 export class Logger extends ChildLogger {
 
   constructor(opts: LoggerOpts = EMPTY) {
-    const { level, writer, prefixSeparator } = opts;
-    const methods = new LogMethods(writer || new DefaultWriter(), level);
-    super({ methods, prefixSeparator });
+    const { level, writer, datetime, prefix } = opts;
+    const methods = new LogMethods(writer || new DefaultWriter({ datetime }), level);
+    super({ methods, prefix: prefix?.length ? `${prefix} ` : '' });
   }
 
   set level(value: LogLevel) {

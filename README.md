@@ -9,6 +9,7 @@ An isomorphic, opinionated logging library that focuses on:
 - **Child loggers**: supports chained child loggers using prefix concatenation
 - **Isomorphism**: supports browsers and server-side runtimes
 - **ESM**: ships with separate ESM and CommonJS builds
+- **Flexibility**: log level can be changed at runtime
 
 ## Etymology
 
@@ -37,35 +38,34 @@ const { default: pinetto } = require('pinetto');
 ### Basic usage
 
 ```typescript
-const logger = pinetto({ level: 'debug' });
-const child = logger.child('child-prefix');
+const root = pinetto({ level: 'debug' });
+root.info('Hello, %s!', 'World');
+// => 2024-09-09T19:05:28.884Z INF Hello, World!
 
-logger.info('Hello, world!'); // prints hello world
-child.debug('Hello, world!'); // prints hello world
+const child = logger.child('[foo]');
+child.debug('Hello, %s!', () => 'World');
+// => 2024-09-09T19:06:02.643Z INF [foo] Hello, World!
 
-logger.level = 'warn';        // log level can be changed at runtime
-                              // the change propagates to child loggers
+const grandchild = child.child('[bar]');
+grandchild.debug('Hello, %s!', 'World');
+// => 2024-09-09T19:06:02.643Z INF [foo][bar] Hello, World!
 
-child.info('Hello, world!');  // prints nothing
+// The log level can be changed at runtime and the change
+// propagates to child loggers.
+logger.level = 'warn';        
+child.info('Hello, world!'); 
+// => <prints nothing>
 ```
 
 ### Supported options
 
-```typescript
-const logger = pinetto({
-  level: 'debug',
-  writer: new BufferedWriter(),
-  prefixSeparator: '',
-})
-```
+| Option | Description | Default value |
+| --- | --- | --- |
+| `level` | Starting log level, one of `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"` | `"info"` |
+| `writer` | Log writer function (see below) | Depends on the environment |
+| `datetime` | A function that returns a date/time string (see below) | `datetimeISO` |
 
-| Option            | Description                                                                    | Default value                          |
-|-------------------|--------------------------------------------------------------------------------|----------------------------------------|
-| `level`           | Starting log level, one of `"trace"`, `"debug"`, `"info"`, `"warn"`, `"error"` | `"info"`                               |
-| `writer`          | Log writer function (see below)                                                | Depends on the environment             |
-| `prefixSeparator` | A string that is used to concatenate prefixes in chain of child loggers        | `" "`                                  |
-
-### Formatting
+### String formatting
 
 `printf`-style syntax is supported:
 
@@ -73,6 +73,48 @@ const logger = pinetto({
 const logger = pinetto({ level: 'debug' });
 
 logger.info('Hello, %s!', 'World');
+```
+
+### Date/time
+
+The `datetime` option may be used to customize whether and how each log line
+will be prefixed with a date/time string:
+
+```typescript
+const logger = pinetto({ 
+  level: 'debug',
+  datetime: () => `${new Date().getFullYear()} `,
+});
+
+logger.info('Hello, %s!', 'World');
+// => 2024 INF Hello, World!
+```
+
+Pinetto ships with two datetime functions: `datetimeVoid`, which returns an
+empty string, and `datetimeISO`, which returns an [ISO 8601][iso8601] string
+(well, technically it's the [RFC 3339][rfc3339] string returned by 
+`Date#toISOString`).
+
+Note that datetime functions **must return a string that ends with a space
+character**.
+
+[iso8601]: https://en.wikipedia.org/wiki/ISO_8601
+[rfc3339]: https://www.rfc-editor.org/rfc/rfc3339
+
+### Functions as arguments
+
+If a log argument is provided in the form of a function it will invoked
+only when the log triggers and its return value will be passed to the
+formatter.
+
+This helps with reducing the number of expensive serialization operations,
+such as `JSON.stringify()`, taking place even when the log level is such
+that the result of the serialization will never be used:
+
+```typescript
+logger.level = 'warn';
+logger.info('Foo %s', () => JSON.serialize({ bar: 42 }));
+// JSON.serialize() will never be invoked
 ```
 
 ### Log writers
@@ -94,7 +136,7 @@ const logger = pinetto({ level: 'debug', writer: new ConsoleWriter() });
 
 ## License
 
-Pinetto is released under the MIT license.
+Pinetto is released under [the MIT license][license].
 
 The following packages have been vendored into pinetto, although slowly
 diverging from the respective sources:
@@ -108,3 +150,4 @@ diverging from the respective sources:
 [printf2]: https://github.com/gajus/fast-printf/tree/8372e5cbc7d4f16a655fd4c42077db0147c077af
 [pino]: https://www.npmjs.com/package/pino
 [etto]: https://en.wiktionary.org/wiki/-etto
+[license]: ./LICENSE

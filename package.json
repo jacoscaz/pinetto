@@ -1,6 +1,6 @@
 {
   "name": "pinetto",
-  "version": "1.3.3",
+  "version": "2.0.0",
   "description": "Isomorphic, opinionated logging library focusing on simplicity and readability. Supports child loggers.",
   "main": "./dist/cjs/index.js",
   "exports": {
@@ -13,7 +13,7 @@
     "build:es": "tsc -p tsconfig.esm.json && echo '{\"type\": \"module\"}' > dist/esm/package.json",
     "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
     "build": "npm run clean && npm run build:es && npm run build:cjs",
-    "test": "node --enable-source-maps node_modules/.bin/mocha \"dist/cjs/**/*.spec.js\""
+    "test": "node --test --test-reporter=spec ./dist/esm"
   },
   "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
   "homepage": "https://github.com/jacoscaz/pinetto",
@@ -24,10 +24,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^10.0.0",
-    "@types/node": "^18.11.9",
-    "mocha": "^8.4.0",
-    "typescript": "^4.7.4"
+    "@types/node": "^22.5.4",
+    "typescript": "^5.6.2"
   },
   "keywords": [
     "logging",

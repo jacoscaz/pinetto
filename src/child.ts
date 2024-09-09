@@ -1,24 +1,21 @@
 
-import type { LogArg, LogLevel } from './types.js';
+import type { LogArg, LogLevel, TrailingSpaceString } from './types.js';
 import type { LogMethods } from './methods.js';
 
 export interface ChildLoggerOpts {
-  prefix?: string;
+  prefix: TrailingSpaceString;
   methods: LogMethods;
-  prefixSeparator?: string;
 }
 
 export class ChildLogger {
 
-  protected readonly _prefix: string | undefined;
+  readonly #prefix: TrailingSpaceString;
   protected readonly _methods: LogMethods;
-  protected readonly _prefixSeparator: string;
 
   constructor(opts: ChildLoggerOpts) {
-    const { prefix, methods, prefixSeparator } = opts;
-    this._prefix = prefix;
+    const { prefix, methods } = opts;
+    this.#prefix = prefix;
     this._methods = methods;
-    this._prefixSeparator = typeof prefixSeparator === 'string' ? prefixSeparator : ' ';
   }
 
   get level(): LogLevel {
@@ -26,30 +23,29 @@ export class ChildLogger {
   }
 
   error(message: string, ...args: LogArg[]) {
-    this._methods.error(this._prefix, message, args);
+    this._methods.error(this.#prefix, message, args);
   }
 
   warn(message: string, ...args: LogArg[]) {
-    this._methods.warn(this._prefix, message, args);
+    this._methods.warn(this.#prefix, message, args);
   }
 
   info(message: string, ...args: LogArg[]) {
-    this._methods.info(this._prefix, message, args);
+    this._methods.info(this.#prefix, message, args);
   }
 
   debug(message: string, ...args: LogArg[]) {
-    this._methods.debug(this._prefix, message, args);
+    this._methods.debug(this.#prefix, message, args);
   }
 
   trace(message: string, ...args: LogArg[]) {
-    this._methods.trace(this._prefix, message, args);
+    this._methods.trace(this.#prefix, message, args);
   }
 
   child(prefix: string) {
     return new ChildLogger({
       methods: this._methods,
-      prefix: typeof this._prefix === 'string' ? `${this._prefix}${this._prefixSeparator}${prefix}` : prefix,
-      prefixSeparator: this._prefixSeparator,
+      prefix: `${this.#prefix.slice(0, -1)}${prefix} `,
     });
   }
 

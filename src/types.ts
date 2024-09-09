@@ -7,16 +7,18 @@ export type LogArg = BaseLogArg | (() => BaseLogArg);
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
 
 export interface LogWriter {
-  write(level: LogLevel, prefix: string | undefined, message: string, args: LogArg[]): any;
+  write(level: LogLevel, prefix: TrailingSpaceString, message: string, args: LogArg[]): any;
 }
 
 export interface LoggerOpts {
   writer?: LogWriter;
   prefix?: string;
   level?: LogLevel;
-  prefixSeparator?: string;
+  datetime?: DatetimeFn;
 }
 
+export type TrailingSpaceString<T extends string = string> = `${T} ` | '';
 
-
-
+export interface DatetimeFn {
+  (): TrailingSpaceString;
+}
