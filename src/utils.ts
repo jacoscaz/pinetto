@@ -1,5 +1,5 @@
 
-import type { DatetimeFn } from './types';
+import type { DatetimeFn } from './types.js';
 
 export const datetimeVoid: DatetimeFn = () => '';
 
