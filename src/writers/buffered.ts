@@ -1,13 +1,10 @@
 
-import type { LogArg, LogWriter, LogLevel, DatetimeFn, TrailingSpaceString } from '../types.js';
-import { format } from './format.js';
-import { EMPTY, RESOLVED, IS_NODE } from '../constants.js';
-import { datetimeISO } from '../utils.js';
+import type { LogWriter } from '../types.js';
+import { EMPTY, RESOLVED, IS_NODE, EOL } from '../constants.js';
 
 export interface BufferedWriterOpts {
   maxBufferLength?: number;
   flushTimeout?: number;
-  datetime?: DatetimeFn;
 }
 
 export class BufferedWriter implements LogWriter {
@@ -15,7 +12,6 @@ export class BufferedWriter implements LogWriter {
   #buffer: string;
   #timeout: any;
   #flushing: boolean;
-  #datetime: DatetimeFn;
   readonly #write: (str: string) => any;
   readonly #maxBufferLength: number;
   readonly #flushTimeout: number;
@@ -27,8 +23,13 @@ export class BufferedWriter implements LogWriter {
     this.#maxBufferLength = typeof opts.maxBufferLength === 'number' ? opts.maxBufferLength as number : 8192;
     this.#flushTimeout = typeof opts.maxBufferLength === 'number' ? opts.flushTimeout as number : 250;
     this._flush = this._flush.bind(this);
-    this.#write = IS_NODE ? process.stdout.write.bind(process.stdout) : console.log.bind(console);
-    this.#datetime = opts.datetime ?? datetimeISO;
+    this.#write = IS_NODE 
+      ? (entry: string) => {
+          process.stdout.write(entry);
+          process.stdout.write(EOL.value);
+        }
+      : console.log.bind(console)
+    ;
   }
 
   private _flush() {
@@ -41,8 +42,8 @@ export class BufferedWriter implements LogWriter {
     this.#flushing = false;
   }
 
-  write(level: LogLevel, prefix: TrailingSpaceString, message: string, args: LogArg[]): any {
-    this.#buffer += format(this.#datetime, level, prefix, message, args) + '\n';
+  write(entry: string): any {
+    this.#buffer += entry + EOL.value;
     if (!this.#flushing) {
       if (this.#buffer.length >= this.#maxBufferLength) {
         this.#flushing = true;

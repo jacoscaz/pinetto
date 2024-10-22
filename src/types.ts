@@ -7,7 +7,7 @@ export type LogArg = BaseLogArg | (() => BaseLogArg);
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
 
 export interface LogWriter {
-  write(level: LogLevel, prefix: TrailingSpaceString, message: string, args: LogArg[]): any;
+  write(entry: string): any;
 }
 
 export interface LoggerOpts {

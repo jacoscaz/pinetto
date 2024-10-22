@@ -1,25 +1,19 @@
 
-import type { LogWriter, LogLevel, LogArg } from './types.js'
+import type { LogWriter } from './types.js'
 
-import { strictEqual, deepStrictEqual } from 'node:assert';
+import { strictEqual } from 'node:assert';
 import { describe, it, beforeEach, } from 'node:test';
 
 import { Logger, createLogger } from './logger.js';
-
-interface LogParams {
-  level: LogLevel,
-  prefix: string,
-  message: string,
-  args: LogArg[],
-}
+import { datetimeVoid } from './utils.js';
 
 describe('a logger', () => {
 
-  let output: LogParams | null = null;
+  let output: string | null = null;
 
   const writer: LogWriter = {
-    write(level: LogLevel, prefix: string, message: string, args: LogArg[]): any {
-      output = { level, prefix, message, args };
+    write(entry: string): any {
+      output = entry;
     }
   };
 
@@ -32,29 +26,32 @@ describe('a logger', () => {
   describe('with log level set at trace', () => {
 
     beforeEach(() => {
-      logger = createLogger({ writer, level: 'trace' });
+      logger = createLogger({ 
+        writer, 
+        level: 'trace',
+        datetime: datetimeVoid,
+      });
     });
 
-    it('should pass a message with no params to the writer with level info', () => {
-      logger = createLogger({ writer });
+    it.only('should pass a message with no params to the writer with level info', () => {
       logger.info('Hello, World!');
-      strictEqual(output!.level, 'info');
-      strictEqual(output!.message, 'Hello, World!');
-      deepStrictEqual(output!.args, []);
+      strictEqual(output, 'INF Hello, World!');
     });
 
     it('should pass a message with one param to the writer with level debug', () => {
-      logger.info('Hello, World!', 42);
-      strictEqual(output!.level, 'info');
-      strictEqual(output!.message, 'Hello, World!');
-      deepStrictEqual(output!.args, [42]);
+      logger.info('Hello, World! %s', 42);
+      strictEqual(output, 'INF Hello, World! 42');
     });
   });
 
   describe('with log level set at info', () => {
 
     beforeEach(() => {
-      logger = createLogger({ writer, level: 'info' });
+      logger = createLogger({ 
+        writer, 
+        level: 'info',
+        datetime: datetimeVoid,
+      });
     });
 
     it('should not write a message with log level trace', () => {
@@ -69,34 +66,37 @@ describe('a logger', () => {
 
     it('should write a message with log level info', () => {
       logger.info('Hello, World!');
-      strictEqual(output!.level, 'info');
+      strictEqual(output, 'INF Hello, World!');
     });
 
     it('should write a message with log level warn', () => {
       logger.warn('Hello, World!');
-      strictEqual(output!.level, 'warn');
+      strictEqual(output, 'WRN Hello, World!');
     });
 
     it('should write a message with log level error', () => {
       logger.error('Hello, World!');
-      strictEqual(output!.level, 'error');
+      strictEqual(output, 'ERR Hello, World!');
     });
 
   });
 
   describe('with a custom prefix separator', () => {
     beforeEach(() => {
-      logger = createLogger({ writer });
+      logger = createLogger({ 
+        writer,
+        datetime: datetimeVoid, 
+      });
     });
 
     it ('should correctly format the prefix in a chain of one', () => {
       logger.child('p1').info('Hello, World!');
-      strictEqual(output!.prefix, 'p1 ');
+      strictEqual(output, 'INF p1 Hello, World!');
     });
 
     it ('should correctly format the prefix in a chain of two', () => {
       logger.child('p1').child('p2').info('Hello, World!');
-      strictEqual(output!.prefix, 'p1p2 ');
+      strictEqual(output, 'INF p1p2 Hello, World!');
     });
   });
 

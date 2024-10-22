@@ -119,19 +119,26 @@ logger.info('Foo %s', () => JSON.serialize({ bar: 42 }));
 
 ### Log writers
 
-Pinetto ships with two different writers: `ConsoleWriter` and `BufferedWriter`.
-The former falls back onto standard `console` logging methods while the latter
-flushes log entries to either `console.log()` or `process.stdout.write()` in an
-asynchronous fashion, depending on whether a node-like environment is detected.
+Pinetto ships with three different writers: 
 
-By default, pinetto will use `BufferedWriter` in node-like environments and
-`ConsoleWriter` everywhere else. However, the writer can be manually set via
-the respective constructor option:
+- `ConsoleWriter`, which falls back onto `console.log()` and works pretty much
+everywhere;
+
+- `ProcessWriter`, which falls back onto `process.stdout.write()` and can only be
+used in Node.js-like environments;
+
+- `BufferedWriter`, which buffers entries and periodically flushes its buffer out
+using `process.stdout.write()` (when in Node.js-like environments) or 
+`console.log()` (everywhere else). 
+
+By default, pinetto will use `ProcessWriter` in Node.js-like environments and
+`ConsoleWriter` everywhere else. A custom writer can be set via the respective
+constructor option:
 
 ```typescript
-import pinetto, { ConsoleWriter, BufferedWriter } from 'pinetto';
+import pinetto, { BufferedWriter } from 'pinetto';
 
-const logger = pinetto({ level: 'debug', writer: new ConsoleWriter() });
+const logger = pinetto({ level: 'debug', writer: new BufferedWriter() });
 ```
 
 ## License
