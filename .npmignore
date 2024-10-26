@@ -5,10 +5,10 @@
 dist/**/*.js.map
 dist/**/*.d.ts.map
 
-dist/**/*.spec.js
-dist/**/*.spec.js.map
-dist/**/*.spec.d.ts
-dist/**/*.spec.d.ts.map
+dist/**/*.test.js
+dist/**/*.test.js.map
+dist/**/*.test.d.ts
+dist/**/*.test.d.ts.map
 
 src
 tsconfig.*
