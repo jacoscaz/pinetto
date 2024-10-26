@@ -33,7 +33,7 @@ describe('a logger', () => {
       });
     });
 
-    it.only('should pass a message with no params to the writer with level info', () => {
+    it('should pass a message with no params to the writer with level info', () => {
       logger.info('Hello, World!');
       strictEqual(output, 'INF Hello, World!');
     });
