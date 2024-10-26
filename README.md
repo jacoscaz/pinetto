@@ -122,14 +122,14 @@ logger.info('Foo %s', () => JSON.serialize({ bar: 42 }));
 Pinetto ships with three different writers: 
 
 - `ConsoleWriter`, which falls back onto `console.log()` and works pretty much
-everywhere;
+  everywhere;
 
-- `ProcessWriter`, which falls back onto `process.stdout.write()` and can only be
-used in Node.js-like environments;
+- `ProcessWriter`, which falls back onto `process.stdout.write()` and can only
+  be used in Node.js-like environments;
 
-- `BufferedWriter`, which buffers entries and periodically flushes its buffer out
-using `process.stdout.write()` (when in Node.js-like environments) or 
-`console.log()` (everywhere else). 
+- `BufferedWriter`, which buffers entries and periodically flushes its buffer
+  out using `process.stdout.write()` (when in Node.js-like environments) or 
+  `console.log()` (everywhere else). 
 
 By default, pinetto will use `ProcessWriter` in Node.js-like environments and
 `ConsoleWriter` everywhere else. A custom writer can be set via the respective
