@@ -1,6 +1,18 @@
 
 # CHANGELOG
 
+## 4.0.0
+
+### Changed
+
+- **[breaking]** This package is now an ESM-only package, having dropped the
+  dual CJS+ESM builds.
+
+### Added
+
+- `ProcessWriter()` now accepts a parameter to specify which stream it should
+  write to (`"stdout"`, `"stderr"` or an instance of `stream.Writable`).
+
 ## 3.0.0
 
 ### Changed
