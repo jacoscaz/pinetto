@@ -5,10 +5,9 @@ An isomorphic, opinionated logging library that focuses on:
 
 - **Simplicity**: zero runtime dependencies, ~500 LoCs
 - **Readability**: produces plain-text, human-readable output
-- **Performance**: uses asynchronous logging techniques when possible
+- **Performance**: supports asynchronous logging techniques
 - **Child loggers**: supports chained child loggers using prefix concatenation
 - **Isomorphism**: supports browsers and server-side runtimes
-- **ESM**: ships with separate ESM and CommonJS builds
 - **Flexibility**: log level can be changed at runtime
 
 ## Etymology
