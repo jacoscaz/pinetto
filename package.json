@@ -2,18 +2,12 @@
   "name": "pinetto",
   "version": "3.0.0",
   "description": "Isomorphic, opinionated logging library focusing on simplicity and readability. Supports child loggers.",
-  "main": "./dist/cjs/index.js",
-  "exports": {
-    "import": "./dist/esm/index.js",
-    "require": "./dist/cjs/index.js"
-  },
-  "type": "commonjs",
+  "main": "./dist/index.js",
+  "type": "module",
   "scripts": {
     "clean": "rm -rf dist/",
-    "build:es": "tsc -p tsconfig.esm.json && echo '{\"type\": \"module\"}' > dist/esm/package.json",
-    "build:cjs": "tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > dist/cjs/package.json",
-    "build": "npm run clean && npm run build:es && npm run build:cjs",
-    "test": "node --test --test-reporter=spec ./dist/esm"
+    "build": "npm run clean && tsc",
+    "test": "node --test --test-reporter=spec ./dist"
   },
   "author": "Jacopo Scazzosi <jacopo@scazzosi.com>",
   "homepage": "https://github.com/jacoscaz/pinetto",
