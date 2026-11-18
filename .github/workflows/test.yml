@@ -3,6 +3,9 @@
 
 name: Node.js CI
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [ master ]
@@ -15,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.x, 24.x, 26.x]
         arch: [x64]
 
     runs-on: ${{ matrix.os }}
